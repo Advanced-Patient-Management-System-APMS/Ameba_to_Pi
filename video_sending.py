@@ -14,7 +14,7 @@ from paho.mqtt.client import CallbackAPIVersion
 # [설정 영역]
 # ==========================================
 
-# 1. RTSP (카메라) 설정
+# 1. RTSP (카메라) 설정 -> ameba ip
 AMEBA_RTSP_URL = "rtsp://192.168.82.79:554"
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp" 
 
@@ -37,7 +37,7 @@ MQTT_PORT = 1883
 MQTT_USER = "mqttuser"
 MQTT_PASS = "asdf"
 
-# 4. 중앙 서버 업로드 주소 (Pi 5의 Flask 대시보드 주소)
+# 4. 중앙 서버 업로드 주소 (Pi 5의 Flask 대시보드 주소) -> must be changed
 UPLOAD_SERVER_URL = "http://100.112.74.119:5000/upload" 
 
 # ==========================================
@@ -140,8 +140,8 @@ height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 print(f"🎥 시스템 가동 시작 (해상도: {width}x{height})")
 frame_buffer = collections.deque(maxlen=BUFFER_SIZE)
 # [추가 1] 테스트용 타이머 변수 설정
-start_time = time.time()
-test_signal_sent = False
+#start_time = time.time()
+#test_signal_sent = False
 
 try:
     while cap.isOpened():
@@ -159,10 +159,10 @@ try:
         frame_buffer.append(frame)
 
         # ⭐️ [추가 2] 10초 뒤에 자동으로 아메바에게 'f' 전송 (테스트용)
-        if not test_signal_sent and (time.time() - start_time > 10):
-            print("\n⏰ [TEST] 10초 경과! 아메바에게 'f' 신호 전송 중...")
-            ser.write(b'f')  # 아메바에게 'f'를 보냄
-            test_signal_sent = True # 한 번만 보내도록 설정
+        #if not test_signal_sent and (time.time() - start_time > 10):
+        #    print("\n⏰ [TEST] 10초 경과! 아메바에게 'f' 신호 전송 중...")
+        #    ser.write(b'f')  # 아메바에게 'f'를 보냄
+        #    test_signal_sent = True # 한 번만 보내도록 설정
 
         # --- [B] 시리얼 신호 감지 ---
         if ser.in_waiting > 0:
